@@ -25,11 +25,17 @@ set(TS_FILES robo_comm_app_de_DE.ts)
 
 set (HEADERS_INC
     ${PRJ_INC}/communication.hpp
+    ${PRJ_INC}/rob_can_msggen.hpp
+)
+
+set (SOURCE_INC
+    ${PRJ_SRC}/main.cpp
+    ${PRJ_SRC}/communication.cpp
+    ${PRJ_SRC}/rob_can_msggen.cpp
 )
 
 set(PROJECT_SOURCES
-        ${CMAKE_SOURCE_DIR}/${PRJ_SRC}/main.cpp
-        ${CMAKE_SOURCE_DIR}/${PRJ_SRC}/communication.cpp
+        ${SOURCE_INC}
         ${HEADERS_INC}
         qml.qrc
         ${TS_FILES}
