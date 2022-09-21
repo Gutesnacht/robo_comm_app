@@ -54,6 +54,8 @@
 #include <QMutex>
 #include <QThread>
 #include <QWaitCondition>
+#include <QtSerialBus/QCanBusDevice>
+#include <QtSerialBus/QCanBus>
 
 namespace communication {
 
