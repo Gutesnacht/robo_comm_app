@@ -55,6 +55,9 @@
 #include <QThread>
 #include <QWaitCondition>
 
+namespace communication {
+
+
 //! [0]
 class SenderThread : public QThread
 {
@@ -64,7 +67,7 @@ public:
     explicit SenderThread(QObject *parent = nullptr);
     ~SenderThread();
 
-    void transaction(const QString &portName, int waitTimeout, const QString &request);
+    void transaction(const QString &portName, int waitTimeout, const QByteArray &request);
 
 signals:
     void response(const QString &s);
@@ -75,7 +78,7 @@ private:
     void run() override;
 
     QString m_portName;
-    QString m_request;
+    QByteArray m_request;
     int m_waitTimeout = 0;
     QMutex m_mutex;
     QWaitCondition m_cond;
@@ -83,4 +86,5 @@ private:
 };
 //! [0]
 
+}
 #endif // COMMUNICATION_HPP

@@ -53,6 +53,8 @@
 #include <QtSerialPort/QSerialPort>
 #include <QTime>
 
+namespace communication {
+
 SenderThread::SenderThread(QObject *parent) :
     QThread(parent)
 {
@@ -70,7 +72,7 @@ SenderThread::~SenderThread()
 //! [0]
 
 //! [1] //! [2]
-void SenderThread::transaction(const QString &portName, int waitTimeout, const QString &request)
+void SenderThread::transaction(const QString &portName, int waitTimeout, const QByteArray &request)
 {
 //! [1]
     const QMutexLocker locker(&m_mutex);
@@ -98,8 +100,9 @@ void SenderThread::run()
         currentPortNameChanged = true;
     }
 
+    QByteArray currentRequest=m_request;
+
     int currentWaitTimeout = m_waitTimeout;
-    QString currentRequest = m_request;
     m_mutex.unlock();
 //! [5] //! [6]
     QSerialPort serial;
@@ -123,7 +126,7 @@ void SenderThread::run()
         }
 //! [7] //! [8]
         // write request
-        const QByteArray requestData = currentRequest.toUtf8();
+        const QByteArray requestData = currentRequest;
         serial.write(requestData);
         if (serial.waitForBytesWritten(m_waitTimeout)) {
 //! [8] //! [10]
@@ -160,4 +163,5 @@ void SenderThread::run()
         m_mutex.unlock();
     }
 //! [13]
+}
 }

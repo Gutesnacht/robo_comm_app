@@ -5,14 +5,33 @@
 
 #include<string>
 #include<vector>
+#include<stdexcept>
 #include<iostream>
 #include<QByteArray>
 #include<QObject>
 #include<QtQml>
 
+// private
+#include"communication.hpp"
+
 
 namespace robot::serial {
 
+struct msg_sizes
+{
+   const size_t SINGLE_MSG_SIZE = 7;
+   const size_t MULTIPLE_MSGS_SIZE = 14;
+   const size_t GET_MSG_SIZE = 5;
+};
+
+enum requests {
+    INVALID=-1,
+    MOVE_MULTIPLE,
+    GET_STATUS,
+    MOVE_JOINT, //2
+    TOGGLE_BREAK,
+    //others...
+};
 
 enum struct MSGG_E_T: int
 {
@@ -56,6 +75,8 @@ public:
 
 private:
     std::vector<std::string> m_request;
+    communication::SenderThread * m_sender;
+
 
 };
 
