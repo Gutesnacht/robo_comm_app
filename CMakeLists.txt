@@ -16,8 +16,8 @@ set(PRJ_INC include)
 
 
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Quick LinguistTools SerialPort)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick SerialPort LinguistTools)
+find_package(QT NAMES Qt5 REQUIRED COMPONENTS Core Quick LinguistTools SerialPort)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick SerialPort LinguistTools SerialBus)
 
 
 
@@ -80,7 +80,8 @@ target_link_libraries(robo_comm_app
   PRIVATE
   Qt${QT_VERSION_MAJOR}::Core
   Qt${QT_VERSION_MAJOR}::Quick
-  Qt${QT_VERSION_MAJOR}::SerialPort)
+  Qt${QT_VERSION_MAJOR}::SerialPort
+  Qt${QT_VERSION_MAJOR}::SerialBus)
   #Qt6SerialBus
   #Qt6SerialPort)
 

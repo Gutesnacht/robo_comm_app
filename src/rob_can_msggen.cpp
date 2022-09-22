@@ -35,6 +35,7 @@ RobotSerial::RobotSerial(){
 
     m_sender = new communication::SenderThread;
 
+
 }
 
 void RobotSerial::create_msg(){
@@ -50,6 +51,7 @@ void RobotSerial::create_msg(){
     request.push_back(dummy);
 
     build_msg(request);
+
 }
 
 MSGG_E_T RobotSerial::build_msg(const std::vector<robot_request> & request)

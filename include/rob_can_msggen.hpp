@@ -10,9 +10,11 @@
 #include<QByteArray>
 #include<QObject>
 #include<QtQml>
+#include<QtSerialBus/QCanBusDevice>
+#include<QtSerialBus/QCanBus>
 
 // private
-#include"communication.hpp"
+#include "include/communication.hpp"
 
 
 namespace robot::serial {

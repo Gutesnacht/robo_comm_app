@@ -50,10 +50,7 @@
 
 #include "include/communication.hpp"
 
-#include <QtSerialPort/QSerialPort>
-#include <QTime>
-
-namespace communication {
+namespace robot::communication {
 
 SenderThread::SenderThread(QObject *parent) :
     QThread(parent)
@@ -70,6 +67,45 @@ SenderThread::~SenderThread()
     wait();
 }
 //! [0]
+
+QList<QCanBusDeviceInfo> SenderThread::sniffCanDevices()
+{
+    QList<QCanBusDeviceInfo> devices {};
+    if (QCanBus::instance()->plugins().contains(QStringLiteral("socketcan"))) {
+        // plugin available
+        std::cout << "Plugin available - Initializing." << std::endl;
+    }
+
+    // get list of devices
+    QString errorString;
+    devices.append(QCanBus::instance()->availableDevices(
+        QStringLiteral("socketcan"), &errorString));
+    if (!errorString.isEmpty())
+       std::cout<< errorString.toStdString() <<std::endl;
+
+
+
+    return devices;
+
+}
+
+CAN_E_T SenderThread::setupCan()
+{
+    QString errorString;
+
+    m_device = QCanBus::instance()->createDevice(
+        QStringLiteral("socketcan"), QStringLiteral("can0"), &errorString);
+    if (!m_device) {
+        // Error handling goes here
+        std::cout<< errorString.toStdString() <<std::endl;
+    } else {
+        m_device->connectDevice();
+    }
+
+
+    return CAN_E_T::CAN_OK;
+
+}
 
 //! [1] //! [2]
 void SenderThread::transaction(const QString &portName, int waitTimeout, const QByteArray &request)

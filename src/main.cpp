@@ -3,8 +3,9 @@
 
 #include <QLocale>
 #include <QTranslator>
-#include <QTQuick>
+#include <QtQuick>
 #include "include/rob_can_msggen.hpp"
+#include "include/communication.hpp"
 
 int main(int argc, char *argv[])
 {

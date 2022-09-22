@@ -56,9 +56,20 @@
 #include <QWaitCondition>
 #include <QtSerialBus/QCanBusDevice>
 #include <QtSerialBus/QCanBus>
+#include <iostream>
+#include <QtSerialPort/QSerialPort>
+#include <QTime>
 
-namespace communication {
 
+namespace robot::communication {
+
+enum struct CAN_E_T: int
+{
+    CAN_INVALID,
+    CAN_NO_DEV,
+    CAN_NO_PLUGIN,
+    CAN_OK=0,
+};
 
 //! [0]
 class SenderThread : public QThread
@@ -70,15 +81,20 @@ public:
     ~SenderThread();
 
     void transaction(const QString &portName, int waitTimeout, const QByteArray &request);
+    QList<QCanBusDeviceInfo>  sniffCanDevices();
+private:
+    CAN_E_T setupCan();
 
 signals:
     void response(const QString &s);
     void error(const QString &s);
     void timeout(const QString &s);
 
+
 private:
     void run() override;
 
+    QCanBusDevice *m_device;
     QString m_portName;
     QByteArray m_request;
     int m_waitTimeout = 0;
